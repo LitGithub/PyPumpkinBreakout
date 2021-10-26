@@ -4,6 +4,9 @@ pp.init()
 screen = pp.display.set_mode((800, 800))
 pp.display.set_caption("breakout!")
 clock = pp.time.Clock()
+controller = pp.joystick.Joystick(0) 
+controller.init()
+
 
 exit = False
 
@@ -68,6 +71,13 @@ while not exit:
         paddleX-=10
     if keys[pp.K_RIGHT]:
         paddleX+=10
+
+    xVel = controller.get_axis(0) #returns a number b/t -1 and 1
+    yVel = controller.get_axis(1) #returns a number b/t -1 and 1
+
+    paddleX += int(xVel * 10)
+    paddleX += int(yVel * 10)
+
     if not b.isDead():
         b.move()
     if b.getX() > paddleX and b.getX() < paddleX + 200 and b.getY() + 30 > 700 and  b.getY() < 750:
